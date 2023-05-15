@@ -1,15 +1,15 @@
-import requests
-import csv
+from datetime import time 
+from jugaad_data.nse import bhavcopy_save, bhavcopy_fo_save
+from datetime import date
 
-url = 'https://www.nseindia.com/api/historical/indices?index=NIFTY%20100&from=01-01-2022&to=01-01-2023'
-response = requests.get(url)
+#Download bhavcopy for Stocks
+#bhavcopy_save(date(2023,3,23), r"C:\Users\anand\OneDrive\Documents\BHAV COPY")
 
-if response.status_code == 200:
-  data = response.json()
-  with open('nifty_50.csv', 'w', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
-    for row in data['data']:
-      writer.writerow([row['date'], row['open'], row['high'], row['low'], row['close'], row['volume']])
-else:
-  print('Error:', response.status_code)
+# Download bhavcopy for futures and options
+#Format (YYYY,M,DD)
+#Do Not use 2023-08-02  use 2023-5-9
+print("Enter the date to download F&O Data")
+D=input("Enter the Day in the format as D for 1-9 and DD for 10-31 :")
+M=input("Enter the Month in the format as M for 1-9 and MM for 10-12 :")
+Y=input("Enter the Year in the format as YYYY :")
+bhavcopy_fo_save(date(int(Y),int(M),int(D)), r"C:\Users\anand\OneDrive\Documents\BHAV COPY")
