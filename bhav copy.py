@@ -69,10 +69,25 @@ def download_bhavcopy(start_date, end_date, save_function):
                     print(f"No data available for {current_date}. Retrying...")
         current_date += timedelta(days=1)
 
+# Function to download bhavcopy data for yesterday
+def download_bhavcopy_yesterday(save_function):
+    yesterday = date.today() - timedelta(days=1)
+    if yesterday.weekday() < 5:  # Skip Saturdays and Sundays
+        while True:
+            try:
+                if isinstance(save_function, list):
+                    for func in save_function:
+                        func(yesterday, r"C:\Users\anand\OneDrive\Documents\BHAV COPY")
+                else:
+                    save_function(yesterday, r"C:\Users\anand\OneDrive\Documents\BHAV COPY")
+                break  # Break out of the retry loop if download is successful
+            except (ValueError, ReadTimeout):
+                print(f"No data available for {yesterday}. Retrying...")
+
 # Main program
 
 # User choice input
-choice = int(input("Enter your choice:\n1. Download using the current date\n2. Enter a specific date\n3. Download data for a specific number of days\n4. Download data within a specific date range\n5. Download data for a custom date range\n"))
+choice = int(input("Enter your choice:\n1. Download using the current date\n2. Enter a specific date\n3. Download data for a specific number of days\n4. Download data within a specific date range\n5. Download data for a custom date range\n6. Download data for yesterday\n"))
 
 if choice == 1:
     # Download using the current date
@@ -205,11 +220,9 @@ elif choice == 5:
         start_month = int(start_month)
         start_day = int(start_day)
         
-        if not validate_date(start_year, start_month, start_day):
+        valid_start_date = validate_date(start_year, start_month, start_day)
+        if not valid_start_date:
             print("Invalid start date! Please enter a valid date.")
-            continue
-        
-        valid_start_date = True
     
     valid_end_date = False
     while not valid_end_date:
@@ -230,11 +243,9 @@ elif choice == 5:
         end_month = int(end_month)
         end_day = int(end_day)
         
-        if not validate_date(end_year, end_month, end_day):
+        valid_end_date = validate_date(end_year, end_month, end_day)
+        if not valid_end_date:
             print("Invalid end date! Please enter a valid date.")
-            continue
-        
-        valid_end_date = True
     
     start_date = date(start_year, start_month, start_day)
     end_date = date(end_year, end_month, end_day)
@@ -242,5 +253,13 @@ elif choice == 5:
     if save_function:
         download_bhavcopy(start_date, end_date, save_function)
         
+elif choice == 6:
+    # Download data for yesterday
+    save_function = choose_save_function()
+    if save_function:
+        download_bhavcopy_yesterday(save_function)
+        
 else:
     print("Invalid choice! Please enter a valid number.")
+
+print("Bhavcopy download complete!")
