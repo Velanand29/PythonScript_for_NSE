@@ -212,7 +212,7 @@ if __name__ == "__main__":
     while True:
         try:
             # User choice input for NSE data download
-            choice = int(input("Enter your choice:\n1. Download using the current date\n2. Enter a specific date\n3. Download data for a specific number of days\n4. Download data within a specific date range\n5. Download data for a custom date range\n6. Download data for yesterday\n"))
+            choice = int(input("Enter your choice:\n1. Download using the current date\n2. Enter a specific date\n3. Download data for a specific number of days\n4. Download data within a specific date range\n5. Download data for a custom date range\n6. Download data for yesterday\n7. Exit\n"))
 
             if choice == 1:
                 # Download using the current date
@@ -260,6 +260,9 @@ if __name__ == "__main__":
                 save_function = choose_save_function()
                 if save_function:
                     download_bhavcopy_yesterday(save_function)
+                
+            elif choice == 7:
+                break              
 
             else:
                 print("Invalid choice! Please enter a valid number.")
