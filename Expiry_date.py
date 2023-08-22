@@ -5,8 +5,9 @@ import requests
 import os
 import io
 import zipfile
-import datetime 
 from datetime import date 
+import datetime
+from datetime import datetime
 
 def unzip(function):
     
@@ -275,8 +276,6 @@ if __name__ == "__main__":
     for chunk in d.iter_content(chunk_size=1024):
         print("Received")
         print(len(chunk))
-
-
 
 if __name__ == "__main__":
     root = tk.Tk()
