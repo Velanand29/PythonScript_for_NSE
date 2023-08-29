@@ -41,34 +41,8 @@ def process_file(csv_file):
     for (year, month, week, instrument), group in grouped:
         print(f"Group: Year: {year} - Month: {month} - Week: {week} - Instrument: {instrument}")
         print(group)
-        print()
-        
-# def open_calculator():
-#         # Create a simple calculator window
-#     calculator_window = tk.Toplevel(root)
-#     calculator_window.title("Calculator")
-
-#     # Create Entry widget to display the calculations
-#     entry = tk.Entry(calculator_window, width=20, borderwidth=5)
-#     entry.grid(row=0, column=0, columnspan=4)
-
-#     # Function to handle button clicks
-#     def button_click(number):
-#         current = entry.get()
-#         entry.delete(0, tk.END)
-#         entry.insert(0, current + str(number))
-
-#     # Create calculator buttons
-#     buttons = [
-#         ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/',
-#          1, 3), ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*',
-#                                                       2, 3), ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-',
-#                                                                                                         3, 3), ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+',
-#                                                                                                                                                        4, 3), ('C', 5, 0),
-#     ]
+        print()                       
                 
-        
-        
 def choose_save_option():
     save_options = ["mysql", "mongodb", "json", "dataframe"]
     save_choice = input("Choose where to save the data (mysql/mongodb/json/dataframe): ").lower()
