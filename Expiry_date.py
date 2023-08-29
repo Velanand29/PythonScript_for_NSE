@@ -38,13 +38,18 @@ class ExpiryDateViewerApp:
         self.output_text.pack(fill=tk.BOTH, expand=True)
 
         self.nse_archives = NSEArchives()
-        
-        
 
     def view_expiry_dates(self):
         input_date = self.date_entry.get()
         try:
             date_obj = datetime.strptime(input_date, "%Y-%m-%d").date()  # Convert to datetime.date
+            
+            # Check if the entered date is a Saturday or Sunday
+            if date_obj.weekday() in [5, 6]:
+                self.output_text.delete("1.0", tk.END)
+                self.output_text.insert(tk.END, "You cannot enter a date on Saturday or Sunday.")
+                return
+            
             expiry_dates = self.nse_archives.expiry_dates(date_obj)
             previous_expiry_dates = [date for date in expiry_dates if date < date_obj]
             upcoming_expiry_dates = [date for date in expiry_dates if date > date_obj]
@@ -63,27 +68,8 @@ class ExpiryDateViewerApp:
         except ValueError:
             self.output_text.delete("1.0", tk.END)
             self.output_text.insert(tk.END, "Invalid date format. Please use YYYY-MM-DD.")
-            
-        def view_expiry_dates(self):
-            input_date = self.date_entry.get()
-        try:
-            date_obj = datetime.strptime(input_date, "%Y-%m-%d").date()  # Convert to datetime.date
-            expiry_dates = self.nse_archives.expiry_dates(date_obj)
-            expiry_dates.sort()  # Sort the expiry dates
 
-            output_text = f"Expiry Dates for {input_date}:\n\n"
-            for idx, date in enumerate(expiry_dates):
-                formatted_date = date.strftime("%Y-%m-%d")
-                if date == date_obj:
-                    output_text += f"{idx + 1}. {formatted_date} (On given date)\n"
-                else:
-                    output_text += f"{idx + 1}. {formatted_date}\n"
-
-            self.output_text.delete("1.0", tk.END)
-            self.output_text.insert(tk.END, output_text)
-        except ValueError:
-            self.output_text.delete("1.0", tk.END)
-            self.output_text.insert(tk.END, "Invalid date format. Please use YYYY-MM-DD.")
+# Rest of the code remains the same
 
 class NSEArchives:
     # Rest of the NSEArchives class definition as provided 
